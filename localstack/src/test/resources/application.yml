@@ -1,0 +1,12 @@
+spring:
+  main:
+    allow-bean-definition-overriding: true
+cloud:
+  aws:
+    s3:
+      bucket: test
+    region:
+      static: ap-northeast2
+    stack:
+      auto: false
+
