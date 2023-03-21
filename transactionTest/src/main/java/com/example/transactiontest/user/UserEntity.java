@@ -34,11 +34,13 @@ public class UserEntity {
 	@ManyToOne(fetch = FetchType.LAZY)
 	private TeamEntity team;
 
+	public void addTeam(TeamEntity team) {
+		this.team = team;
+		team.addUser(this);
+	}
+
 	public void update(String s) {
 		this.name = s;
 	}
 
-	public void addTeam(TeamEntity team) {
-		this.team = team;
-	}
 }

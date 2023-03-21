@@ -50,7 +50,7 @@ public class TestService {
 
 		return teams.stream()
 			.map(teamEntity -> {
-				teamEntity.getUsers();
+				teamEntity.getUsers().forEach(UserEntity::getName);
 				return entityManagerFactory.getPersistenceUnitUtil().isLoaded(teamEntity.getUsers());
 			})
 			.toList();

@@ -36,7 +36,6 @@ public class TeamEntity {
 	private List<UserEntity> users =new ArrayList<>();
 
 	public void addUser(UserEntity user) {
-		user.addTeam(this);
-		this.users.add(user);
+		users.add(user);
 	}
 }
