@@ -1,0 +1,28 @@
+principal :
+
+
+  Name: [2770060877],
+  Granted Authorities: [
+  [ROLE_USER, SCOPE_profile_image, SCOPE_profile_nickname]
+  ],
+ User Attributes: [
+  {
+   id=2770060877,
+   connected_at=2023-04-30T16:20:25Z,
+   properties = {
+      nickname=iliililiili,
+      profile_image=http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg,
+      thumbnail_image=http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_110x110.jpg
+    },
+   kakao_account={
+   profile_nickname_needs_agreement=false,
+   profile_image_needs_agreement=false,
+   profile={
+     nickname=iliililiili,
+     thumbnail_image_url=http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_110x110.jpg,
+     profile_image_url=http://k.kakaocdn.net/dn/dpk9l1/btqmGhA2lKL/Oz0wDuJn1YV2DIn92f6DVK/img_640x640.jpg,
+     is_default_image=true
+     }
+   }
+ }
+ ]
