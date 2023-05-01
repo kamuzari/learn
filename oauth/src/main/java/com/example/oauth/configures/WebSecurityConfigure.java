@@ -6,6 +6,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.jdbc.core.JdbcOperations;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.builders.WebSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
@@ -13,11 +14,17 @@ import org.springframework.security.config.annotation.web.configuration.WebSecur
 import org.springframework.security.config.http.SessionCreationPolicy;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.oauth2.client.JdbcOAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.OAuth2AuthorizedClientService;
+import org.springframework.security.oauth2.client.registration.ClientRegistrationRepository;
+import org.springframework.security.oauth2.client.web.AuthenticatedPrincipalOAuth2AuthorizedClientRepository;
+import org.springframework.security.oauth2.client.web.OAuth2AuthorizedClientRepository;
 import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.security.web.context.SecurityContextPersistenceFilter;
 
 import com.example.oauth.jwt.Jwt;
 import com.example.oauth.jwt.JwtAuthenticationFilter;
+import com.example.oauth.oauth2.HttpCookieOauth2AuthorizationRequestRepository;
 import com.example.oauth.oauth2.Oauth2AuthenticationSuccessHandler;
 import com.example.oauth.user.service.AuthService;
 import com.fasterxml.jackson.databind.ObjectMapper;
@@ -67,8 +74,30 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
 	}
 
 	@Bean
-	public Oauth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler(Jwt jwt, AuthService authService) {
+	public Oauth2AuthenticationSuccessHandler oauth2AuthenticationSuccessHandler(
+		Jwt jwt,
+		AuthService authService
+	) {
 		return new Oauth2AuthenticationSuccessHandler(new ObjectMapper(), authService, jwt);
+	}
+
+	@Bean
+	public HttpCookieOauth2AuthorizationRequestRepository httpCookieOauth2AuthorizationRequestRepository() {
+		return new HttpCookieOauth2AuthorizationRequestRepository();
+	}
+
+	@Bean
+	public OAuth2AuthorizedClientService authorizedClientService(
+		JdbcOperations jdbcOperations,
+		ClientRegistrationRepository clientRegistrationRepository
+	) {
+		return new JdbcOAuth2AuthorizedClientService(jdbcOperations, clientRegistrationRepository);
+	}
+
+	@Bean
+	public OAuth2AuthorizedClientRepository authorizedClientRepository(
+		OAuth2AuthorizedClientService authorizedClientService) {
+		return new AuthenticatedPrincipalOAuth2AuthorizedClientRepository(authorizedClientService);
 	}
 
 	@Override
@@ -111,7 +140,12 @@ public class WebSecurityConfigure extends WebSecurityConfigurerAdapter {
 			.securityContext()
 			.and()
 			.oauth2Login()
+			.authorizationEndpoint()
+			.authorizationRequestRepository(httpCookieOauth2AuthorizationRequestRepository())
+			.and()
 			.successHandler(getApplicationContext().getBean(Oauth2AuthenticationSuccessHandler.class))
+			.authorizedClientRepository(
+				getApplicationContext().getBean(AuthenticatedPrincipalOAuth2AuthorizedClientRepository.class))
 			.and()
 			.addFilterAfter(jwtAuthenticationFilter(), SecurityContextPersistenceFilter.class);
 	}
