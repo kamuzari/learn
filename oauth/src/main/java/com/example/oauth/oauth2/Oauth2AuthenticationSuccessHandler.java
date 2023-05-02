@@ -39,7 +39,6 @@ public class Oauth2AuthenticationSuccessHandler extends SavedRequestAwareAuthent
 		HttpServletResponse response,
 		Authentication authentication
 	) throws ServletException, IOException {
-
 		Object principal = authentication.getPrincipal();
 		log.info("authentication success @@@ -- principal : {}", principal);
 

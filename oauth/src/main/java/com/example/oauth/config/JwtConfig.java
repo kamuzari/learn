@@ -1,4 +1,4 @@
-package com.example.oauth.configures;
+package com.example.oauth.config;
 
 import org.apache.commons.lang3.builder.ToStringBuilder;
 import org.apache.commons.lang3.builder.ToStringStyle;
@@ -7,7 +7,7 @@ import org.springframework.stereotype.Component;
 
 @Component
 @ConfigurationProperties(prefix = "spring.jwt")
-public class JwtConfigure {
+public class JwtConfig {
 
 	private String header;
 

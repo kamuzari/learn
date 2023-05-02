@@ -12,8 +12,7 @@ import org.springframework.security.oauth2.client.web.AuthorizationRequestReposi
 import org.springframework.security.oauth2.core.endpoint.OAuth2AuthorizationRequest;
 import org.springframework.web.util.WebUtils;
 
-public final class HttpCookieOauth2AuthorizationRequestRepository
-	implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
+public final class HttpCookieOauth2AuthorizationRequestRepository implements AuthorizationRequestRepository<OAuth2AuthorizationRequest> {
 
 	private static final String OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME = "OAUTH2_AUTHORIZATION_REQUEST_COOKIE_NAME";
 

@@ -42,24 +42,27 @@ spring:
   jwt:
     header: token
     issuer: prgrms
-    client-secret: EENY5W0eegTf1naQB2eDeyCLl5kRS2b8xa5c4qLdS0hmVjtbvo8tOyhPMcAmtPuQ
+    client-secret: ${JWT_SECRET:ENC(Iyl8A3kGYEGqa8nLZik+xEAJ1ITjb49F)}
     expiry-seconds: 60
 
   security:
     oauth2:
       client:
         registration:
-          kakao:
+          kakao: # https://developers.kakao.com/ >> 상단 메뉴 내 애플리케이션
             client-name: kakao
-            client-id: 09d33f90f2b35207ef5b4c3549029620 # ?????? >> rest api ?
-            client-secret: Fep4PfVurayscrOk3XCME1Y8r0rbKOYr # ?? client-secret
-            scope: profile_nickname, profile_image # ???? ?? ?? ?? ,? ???? ??
-            redirect-uri: "http://localhost:8080/login/oauth2/code/{registrationId}" # ?????? redirect_url ?? ??? ????
+            client-id: ${K_CLIENT_ID:ENC(DzeX9QvHWlYp+zZ8p4x2DwnqY9GSANGejlb8OFDFZGbL7PdYerVpu7GCoc3hYlNB)} # >> 요약정보 >> 앱키 >> REST API키
+            client-secret: ${K_CLIENT_SECRET:ENC(LsVgYWdJE1MUPX4tYZz4Z8/aw4FO0ynxhL4VXnuYne2kfDLGtEV79jSiDMSK84vT)} # 보안 >> client-secret 코드
+            scope: ${K_SCOPE:ENC(j2ly2z6/SWRuTSDEVEHSPgTGsA5fP7kBacGhK1X7rXInBS4mza7UTg==)} # 동의항목 >> 개인정보 별 id 입력 ','로 구분
+            redirect-uri: "http://localhost:8080/login/oauth2/code/{registrationId}" # 카카오로그인 >>  redirect_url - 마지막은 변수처리 해야함(시큐리티 내부에서는 변수로 oauth provider, registration 정보를 가져옴)
             authorization-grant-type: authorization_code
             client-authentication-method: POST
-        provider:
-          kakao: # kakao docu ??  ?? >> ??? ??? >> RestAPI >> ???? ??
-            authorization-uri: https://kauth.kakao.com/oauth/authorize # ?? >> ??? ??? >> RestAPI >> ??? ?? ??? ??? ???? ?? 1?? ????? ???? API
-            token-uri: https://kauth.kakao.com/oauth/token # ?? >> ??? ??? >> RestAPI >> ?? ??  1?? ???? ???? ?? ?? ??
-            user-info-uri: https://kapi.kakao.com/v2/user/me # ?? >> ??? ??? >> RestAPI >> ??? ?? ????
-            user-name-attribute: id # ?? >> ??? ??? >> RestAPI >> ??? ?? ?????? ?? ??? ?? ??? ?? ?? ?? id?? ???? ??.
+        provider:  # https://developers.kakao.com/ >> 상단 메뉴에 문서 클릭
+          kakao: # 왼쪽 메뉴 카카오 로그인 >> REST API 클릭
+            authorization-uri: https://kauth.kakao.com/oauth/authorize # 인가코드 받기 부분 GET /oauth/authorize [1회성 코드를 받는  API]
+            token-uri: https://kauth.kakao.com/oauth/token # 토큰 받기 POST /oauth/token HTTP/1.1 [엑세스 토큰을 받기위한 uri]
+            user-info-uri: https://kapi.kakao.com/v2/user/me # 사용자 정보 가져오기 부분
+            user-name-attribute: id #사용자 고유 식별키를 추출하기 위한 필드명 ( 필수라고 나와있음) | 사용자 정보 가져오기 부분에 응답 모델을 보면
+
+encryptor:
+  key: oauth2
