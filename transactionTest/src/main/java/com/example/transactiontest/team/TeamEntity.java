@@ -1,7 +1,7 @@
 package com.example.transactiontest.team;
 
-import java.util.ArrayList;
-import java.util.List;
+import java.util.LinkedHashSet;
+import java.util.Set;
 
 import javax.persistence.Entity;
 import javax.persistence.FetchType;
@@ -17,7 +17,9 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.ToString;
 
+@ToString(exclude = {"users"})
 @Builder
 @Getter
 @NoArgsConstructor
@@ -33,7 +35,7 @@ public class TeamEntity {
 
 	@Builder.Default
 	@OneToMany(fetch = FetchType.LAZY)
-	private List<UserEntity> users =new ArrayList<>();
+	private Set<UserEntity> users = new LinkedHashSet<>();
 
 	public void addUser(UserEntity user) {
 		users.add(user);

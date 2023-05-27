@@ -3,6 +3,7 @@ package com.example.transactiontest;
 import static org.assertj.core.api.Assertions.assertThat;
 
 import java.util.List;
+import java.util.Set;
 import java.util.stream.IntStream;
 
 import javax.persistence.EntityManager;
@@ -11,6 +12,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.transaction.annotation.Transactional;
 
 import com.example.transactiontest.team.TeamEntity;
 import com.example.transactiontest.team.TeamRepository;
@@ -94,6 +96,34 @@ class TestServiceTest {
 		List<Boolean> isLoads = testService.test2();
 		//then
 		isLoads.forEach(isLoad -> assertThat(isLoad).isTrue());
+	}
+
+	@Test
+	@Transactional
+	@DisplayName("카테시안 곱?")
+	void testCatesian(){
+	    //given
+		List<TeamEntity> teams = IntStream.range(0, 5)
+			.mapToObj(value -> TeamEntity.builder().name(String.valueOf(value)).build())
+			.toList();
+		teamRepository.saveAll(teams);
+		List<UserEntity> users = IntStream.range(0, 50)
+			.mapToObj(value -> {
+				UserEntity user = UserEntity.builder()
+					.name(String.valueOf(value))
+					.build();
+				user.addTeam(teams.get(value%5));
+				return user;
+			})
+			.toList();
+		userRepository.saveAll(users);
+		entityManager.flush();
+	    //when
+
+		Set<TeamEntity> allCustom = teamRepository.findAllCustom();
+
+		//then
+		System.out.println(allCustom);
 	}
 
 }
