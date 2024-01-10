@@ -1,0 +1,27 @@
+version: '3.8'
+
+networks:
+  default:
+    name: multiple-datasource-test
+
+services:
+  enterprise:
+    image: mysql:8.0
+    container_name: enterprise
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: enterprise
+      TZ: Asia/Seoul
+    ports:
+      - "3307:3307"
+    restart: always
+
+  customer:
+    image: mysql:8.0
+    container_name: customer
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: customer
+      TZ: Asia/Seoul
+    ports:
+      - "3306:3306"
