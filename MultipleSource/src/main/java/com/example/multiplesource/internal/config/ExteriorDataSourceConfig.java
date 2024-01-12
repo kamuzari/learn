@@ -7,7 +7,6 @@ import javax.sql.DataSource;
 
 import org.springframework.boot.autoconfigure.jdbc.DataSourceProperties;
 import org.springframework.boot.context.properties.ConfigurationProperties;
-import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
@@ -48,14 +47,13 @@ public class ExteriorDataSourceConfig {
 	}
 
 	@Bean
-	@Primary
 	public LocalContainerEntityManagerFactoryBean exteriorEntityManager() {
 		var localContainerEntityManagerFactoryBean = new LocalContainerEntityManagerFactoryBean();
 		localContainerEntityManagerFactoryBean.setDataSource(exteriorDataSource());
 		localContainerEntityManagerFactoryBean.setPackagesToScan("com.example.multiplesource.exterior");
 
 		var hibernateVendor = new HibernateJpaVendorAdapter();
-		hibernateVendor.setDatabasePlatform();
+		hibernateVendor.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
 		hibernateVendor.setShowSql(true);
 		hibernateVendor.setGenerateDdl(true);
 		localContainerEntityManagerFactoryBean.setJpaVendorAdapter(hibernateVendor);

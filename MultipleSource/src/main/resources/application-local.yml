@@ -9,10 +9,10 @@ spring:
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: ${MYSQL_USERNAME:root}
         password: ${MYSQL_PASSWORD:password}
-        url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/${MYSQL_DATABASE:enterprise}
+        url: jdbc:mysql://${MYSQL_HOST:localhost}:3307/${MYSQL_DATABASE:enterprise}
     customer:
       hikari:
         driver-class-name: com.mysql.cj.jdbc.Driver
         username: ${MYSQL_USERNAME:root}
         password: ${MYSQL_PASSWORD:password}
-        url: jdbc:mysql://${MYSQL_HOST:localhost}:3307/${MYSQL_DATABASE:customer}
+        url: jdbc:mysql://${MYSQL_HOST:localhost}:3306/${MYSQL_DATABASE:customer}

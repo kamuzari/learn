@@ -1,5 +1,7 @@
 package com.example.multiplesource.exterior.enterprise;
 
+import java.util.StringJoiner;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.GenerationType;
@@ -17,8 +19,15 @@ public class EnterpriseEntity {
 	protected EnterpriseEntity() {
 	}
 
-	public EnterpriseEntity(Long id, String name) {
-		this.id = id;
+	public EnterpriseEntity(String name) {
 		this.name = name;
+	}
+
+	@Override
+	public String toString() {
+		return new StringJoiner(", ", EnterpriseEntity.class.getSimpleName() + "[", "]")
+				.add("id=" + id)
+				.add("name='" + name + "'")
+				.toString();
 	}
 }

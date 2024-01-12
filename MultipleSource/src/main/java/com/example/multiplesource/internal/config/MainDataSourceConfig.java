@@ -60,6 +60,7 @@ public class MainDataSourceConfig {
 		var hibernateVendor = new HibernateJpaVendorAdapter();
 		hibernateVendor.setShowSql(true);
 		hibernateVendor.setGenerateDdl(true);
+		hibernateVendor.setDatabasePlatform("org.hibernate.dialect.MySQLDialect");
 		localContainerEntityManagerFactoryBean.setJpaVendorAdapter(hibernateVendor);
 
 		Map<String, Object> properties = new HashMap<>();
