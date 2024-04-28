@@ -3,17 +3,21 @@ package com.example.security.config;
 import org.jasypt.encryption.StringEncryptor;
 import org.jasypt.encryption.pbe.PooledPBEStringEncryptor;
 import org.jasypt.encryption.pbe.config.SimpleStringPBEConfig;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Profile;
 
+@Profile({"local"})
 @Configuration
 public class JasyptConfig {
+	@Value("${encryptor.key}")
+	String password;
 	@Bean
 	public StringEncryptor stringEncryptor() {
 		PooledPBEStringEncryptor encryptor = new PooledPBEStringEncryptor();
 		SimpleStringPBEConfig config = new SimpleStringPBEConfig();
-		String key = System.getenv("ENV_JASYPT_KEY");
-		config.setPassword(key);
+		config.setPassword(password);
 		config.setAlgorithm("PBEWithMD5AndTripleDES");
 		config.setKeyObtentionIterations(1000);
 		config.setPoolSize(1);

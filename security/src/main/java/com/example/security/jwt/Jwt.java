@@ -19,58 +19,48 @@ public final class Jwt {
 
 	private final String clientSecret;
 
-	private final int expirySeconds;
+	private final int accessExpirySeconds;
+	private final int refreshExpirySeconds;
 
 	private final Algorithm algorithm;
 
 	private final JWTVerifier jwtVerifier;
 
-	public Jwt(String issuer, String clientSecret, int expirySeconds) {
+	public Jwt(String issuer, String clientSecret, int accessExpirySeconds, int refreshExpirySeconds) {
 		this.issuer = issuer;
 		this.clientSecret = clientSecret;
-		this.expirySeconds = expirySeconds;
-		this.algorithm = Algorithm.HMAC512(clientSecret);
+		this.accessExpirySeconds = accessExpirySeconds;
+		this.refreshExpirySeconds = refreshExpirySeconds;
+		this.algorithm = Algorithm.HMAC512(this.clientSecret);
 		this.jwtVerifier = JWT.require(algorithm)
 			.withIssuer(issuer)
 			.build();
 	}
 
-	public String create(Claims claims) {
+	public String createForAccess(Claims claims) {
 		Date now = new Date();
 		JWTCreator.Builder builder = JWT.create();
 		builder.withIssuer(issuer);
 		builder.withIssuedAt(now);
-		if (expirySeconds > 0) {
-			builder.withExpiresAt(new Date(now.getTime() + expirySeconds * 1_000L));
-		}
+		builder.withExpiresAt(new Date(now.getTime() + accessExpirySeconds * 1_000L));
 		builder.withClaim("userId", claims.userId);
 		builder.withClaim("username", claims.username);
 		builder.withArrayClaim("roles", claims.roles);
 		return builder.sign(algorithm);
 	}
 
+	public String createForRefresh(Claims claims) {
+		Date now = new Date();
+		JWTCreator.Builder builder = JWT.create();
+		builder.withIssuer(issuer);
+		builder.withIssuedAt(now);
+		builder.withExpiresAt(new Date(now.getTime() + refreshExpirySeconds * 1_000L));
+		builder.withClaim("userId", claims.userId);
+		return builder.sign(algorithm);
+	}
+
 	public Claims verify(String token) throws JWTVerificationException {
 		return new Claims(jwtVerifier.verify(token));
-	}
-
-	public String getIssuer() {
-		return issuer;
-	}
-
-	public String getClientSecret() {
-		return clientSecret;
-	}
-
-	public int getExpirySeconds() {
-		return expirySeconds;
-	}
-
-	public Algorithm getAlgorithm() {
-		return algorithm;
-	}
-
-	public JWTVerifier getJwtVerifier() {
-		return jwtVerifier;
 	}
 
 	@Getter
@@ -102,6 +92,9 @@ public final class Jwt {
 			this.expiredAt = decodedJWT.getExpiresAt();
 		}
 
+		/**
+		 * @Return: for access-token
+		 */
 		public static Claims of(long userId, String username, String[] roles) {
 			Claims claims = new Claims();
 			claims.userId = userId;
@@ -110,20 +103,13 @@ public final class Jwt {
 			return claims;
 		}
 
-		long getIssuedAt() {
-			return issuedAt != null ? issuedAt.getTime() : -1;
-		}
-
-		long getExpiration() {
-			return expiredAt != null ? expiredAt.getTime() : -1;
-		}
-
-		void eraseIssuedAt() {
-			issuedAt = null;
-		}
-
-		void eraseExpiration() {
-			expiredAt = null;
+		/**
+		 * @Return: for refresh-token
+		 */
+		public static Claims of(long userId) {
+			Claims claims = new Claims();
+			claims.userId = userId;
+			return claims;
 		}
 	}
 

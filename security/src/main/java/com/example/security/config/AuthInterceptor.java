@@ -5,11 +5,10 @@ import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
 import com.auth0.jwt.exceptions.JWTVerificationException;
-import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.example.security.jwt.Jwt;
 import com.example.security.jwt.JwtAuthenticationToken;
 import com.example.security.jwt.JwtTokenConfigure;
-import com.example.security.user.controller.request.JwtAuthentication;
+import com.example.security.user.controller.request.JwtAuthenticationDto;
 
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
@@ -28,13 +27,13 @@ public class AuthInterceptor implements HandlerInterceptor {
 		HttpServletResponse response,
 		Object handler) throws Exception {
 		// todo: refreshToken
-		String token = request.getHeader(configure.getHeader());
+		String token = request.getHeader(configure.accessHeader());
 		if (token == null || token.isBlank()) {
 			throw new JWTVerificationException("헤더가 존재하지 않습니다.");
 		}
 
 		Jwt.Claims verifiedClaim = jwt.verify(token);
-		JwtAuthentication jwtAuth = new JwtAuthentication(verifiedClaim.getUserId(), verifiedClaim.getUsername());
+		JwtAuthenticationDto jwtAuth = new JwtAuthenticationDto(verifiedClaim.getUserId(), verifiedClaim.getUsername());
 		JwtAuthenticationToken jwtAuthToken = new JwtAuthenticationToken(jwtAuth, null);
 		SecurityContextHolder.getContext().setAuthentication(jwtAuthToken);
 		return true;

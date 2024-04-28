@@ -1,11 +1,11 @@
 package com.example.security.config;
 
 import org.springframework.boot.autoconfigure.security.servlet.PathRequest;
+import org.springframework.boot.context.properties.EnableConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
-import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
@@ -13,6 +13,7 @@ import org.springframework.security.web.SecurityFilterChain;
 import com.example.security.jwt.Jwt;
 import com.example.security.jwt.JwtTokenConfigure;
 
+@EnableConfigurationProperties({JwtTokenConfigure.class})
 @Configuration
 public class SecurityConfiguration {
 
@@ -24,9 +25,10 @@ public class SecurityConfiguration {
 
 	@Bean
 	public Jwt jwt() {
-		return new Jwt(jwtTokenConfigure.getIssuer(),
-			jwtTokenConfigure.getClientSecret(),
-			jwtTokenConfigure.getExpirySeconds()
+		return new Jwt(jwtTokenConfigure.issuer(),
+			jwtTokenConfigure.clientSecret(),
+			jwtTokenConfigure.accessExpirySeconds(),
+			jwtTokenConfigure.refreshExpirySeconds()
 		);
 	}
 
