@@ -6,8 +6,6 @@ spring:
   jpa:
     mapping-resources:
 
-
-
 jwt:
   token:
     access-header: ${JWT_ACCESS_HEADER:ENC(wCDnLXsQpxmETxULplUl/FQK040NhP50)}

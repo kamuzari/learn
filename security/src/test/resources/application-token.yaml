@@ -1,0 +1,11 @@
+jwt:
+  token:
+    access-header: ${JWT_ACCESS_HEADER:acc}
+    refresh-header: ${JWT_REFRESH_HEADER:ref}
+    issuer: ${JWT_ISSUER:ENC(2a4b4nIfQ71azDnMx//jIOG2nZT+xbGIYzNUwI807aM=)}
+    client-secret: ${JWT_SECRET:ENC(OoBtxYPhAJ0MlixnVsTUD1rMxvsU+csy)}
+    access-expiry-seconds: 1
+    refresh-expiry-seconds: 5
+
+encryptor:
+  key: ${ENCRYPTOR_KEY:around-the-korea}

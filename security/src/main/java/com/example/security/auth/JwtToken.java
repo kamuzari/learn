@@ -1,6 +1,8 @@
 package com.example.security.auth;
 
-import java.sql.Blob;
+import java.time.LocalDateTime;
+
+import org.springframework.data.annotation.CreatedBy;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
@@ -19,8 +21,15 @@ public class JwtToken {
 	@Column(columnDefinition = "clob")
 	private String token;
 
+	@CreatedBy
+	private LocalDateTime createdAt;
+
 	public JwtToken(Long userId, String token) {
 		this.userId = userId;
 		this.token = token;
+	}
+
+	public boolean isMatch(String clientToken) {
+		return token.equals(clientToken);
 	}
 }
