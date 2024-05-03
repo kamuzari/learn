@@ -8,7 +8,6 @@ export default {
   },
   methods: {
     async fetchData() {
-      console.log('fetch data....');
       this.todoData = null
       const res = await fetch(
           `https://jsonplaceholder.typicode.com/todos/${this.todoId}`
@@ -16,11 +15,12 @@ export default {
       this.todoData = await res.json()
     }
   },
- watch: {
-   todoId(newCount) {
-     this.fetchData();
-   }
- },
+  watch: {
+    todoId(newCount) {
+      console.log('newCount value -> '+newCount);
+      this.fetchData();
+    }
+  },
   mounted() {
     this.fetchData()
   }
