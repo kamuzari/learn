@@ -2,17 +2,26 @@
 export default {
   data() {
     return {
-      message: '안녕 Vue!',
-      counter: {
-        count: 0
-      }
+      titleClass: 'title',
+      vBindClass:'v-bind'
     }
   }
 }
 </script>
 
 <template>
-  <h1> {{ message}} </h1>
-  <p>숫자 세기: {{counter.count}}</p>
+  <h1 :class="titleClass">{ ':${html property}' }</h1>
+  <h1 v-bind:class="vBindClass"> ' v-bind:{html property}' </h1>
 </template>
+
+<style>
+.title{
+  color: deepskyblue;
+}
+
+.v-bind{
+  color: coral;
+}
+
+</style>
 
