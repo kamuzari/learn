@@ -1,13 +1,13 @@
 <script>
-import childComponent from './components/props/ChildComponent.vue'
+import childComponent from './ChildComponent.vue'
 
 export default {
   // 자식 컴포넌트를 등록
   components: {
     childComponent
   },
-  data(){
-    return{
+  data() {
+    return {
       greeting: 'Parent 의 데이터이다!!'
     }
   }
