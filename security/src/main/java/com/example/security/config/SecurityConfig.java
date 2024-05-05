@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.HttpMethod;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
+import org.springframework.security.config.annotation.web.configuration.WebSecurityCustomizer;
 import org.springframework.security.config.annotation.web.configurers.AbstractHttpConfigurer;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -51,12 +52,15 @@ public class SecurityConfig {
 			.oidcLogout(AbstractHttpConfigurer::disable)
 			.csrf(AbstractHttpConfigurer::disable)
 			.authorizeHttpRequests(
-				authRequest -> authRequest.requestMatchers(PathRequest.toH2Console()).permitAll()
-					.requestMatchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-					.requestMatchers(HttpMethod.POST, "/api/v1/account/**").permitAll()
-			).authorizeHttpRequests(authroize -> authroize.anyRequest().access(openPolicyAgentAuthorizationManager))
-
+				authRequest -> authRequest.requestMatchers(HttpMethod.POST, "/api/v1/account/**").permitAll()
+					.anyRequest().access(openPolicyAgentAuthorizationManager))
 			.build();
+	}
+
+	@Bean
+	public WebSecurityCustomizer webSecurityCustomizer() {
+		return web -> web.ignoring().requestMatchers(PathRequest.toH2Console())
+			.requestMatchers(PathRequest.toStaticResources().atCommonLocations());
 	}
 }
 
