@@ -24,33 +24,53 @@ const router = createRouter({
         },
         {
             path: '/propertyBinding',
-            name: '/propertyBinding',
+            name: 'propertyBinding',
             component: ()=> import('../views/PropertyBindingComponent.vue')
         },
         {
             path: '/eventListener',
-            name: '/eventListener',
+            name: 'eventListener',
             component: ()=> import('../views/EventListnerComponent.vue')
         },
         {
             path: '/formBinding',
-            name: '/formBinding',
+            name: 'formBinding',
             component: ()=> import('../views/FormBinding.vue')
         },
         {
             path: '/conditionRendering',
-            name: '/conditionRendering',
+            name: 'conditionRendering',
             component: ()=> import('../views/ConditionRendering.vue')
         },
         {
             path: '/listRendering',
-            name: '/listRendering',
+            name: 'listRendering',
             component: ()=> import('../views/ListRendering.vue')
         },
         {
             path: '/computeProperty',
-            name: '/computeProperty',
+            name: 'computeProperty',
             component: ()=> import('../views/ComputeProperty.vue')
+        },
+        {
+            path: '/mount',
+            name: 'mount',
+            component: ()=> import('../views/MountInLifeCycle.vue')
+        },
+        {
+            path: '/whatcher',
+            name: 'whatcher',
+            component: ()=> import('../views/Whatcher.vue')
+        },
+        {
+            path: '/props',
+            name: 'props',
+            component: ()=> import('../views/PropsParentToChild.vue')
+        },
+        {
+            path: '/emits',
+            name: 'emits',
+            component: ()=> import('../views/EmitsChildToParent.vue')
         }
     ]
 })
