@@ -1,19 +1,25 @@
-<script>
-import childComponent from './components/props/ChildComponent.vue'
+<script setup>
+import {ref} from "vue";
 
-export default {
-  // 자식 컴포넌트를 등록
-  components: {
-    childComponent
-  },
-  data(){
-    return{
-      greeting: 'Parent 의 데이터이다!!'
-    }
-  }
-}
+const container = ref('container')
 </script>
 
 <template>
-  <childComponent :message-from-parent="greeting"/>
+  <div>
+    <span><RouterLink :to="{name : 'home'}">홈으로 가기</RouterLink></span>
+    <span><RouterLink :to="{name : 'render-list'}">리스트 렌더링으로 가기</RouterLink></span>
+  </div>
+  <router-view/>
 </template>
+
+<style scoped>
+div {
+  justify-content: space-between;
+  align-items: stretch;
+}
+
+span {
+  flex: 20px; /* Optional: This makes the spans take equal space */
+  text-align: center; /* Optional: Center the text inside the spans */
+}
+</style>
