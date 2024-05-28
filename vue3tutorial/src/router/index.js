@@ -13,6 +13,11 @@ const router = createRouter({
             name: 'render-list',
             component: () => import('@/views/core/RenderingList.vue')
         },
+        {
+            path: '/form-binding',
+            name: 'form-binding',
+            component: () => import('@/views/core/FormBinding.vue')
+        },
     ]
 })
 
