@@ -15,6 +15,9 @@ const container = ref('container')
     <span>
       <RouterLink :to="{ name: 'form-binding' }">폼 바인딩으로 가기</RouterLink>
     </span>
+    <span>
+      <RouterLink :to="{ name: 'watchers' }">watchers로 가기</RouterLink>
+    </span>
   </div>
   <router-view />
 </template>
