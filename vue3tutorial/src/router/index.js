@@ -6,7 +6,19 @@ const router = createRouter({
     {
       path: "/",
       name: "home",
-      component: () => import("@/views/HomeView.vue"),
+      redirect: { name: "home-list" },
+      children: [
+        {
+          path: "child",
+          name: "child",
+          component: () => import("@/views/ChildView.vue"),
+        },
+        {
+          path: "list",
+          name: "home-list",
+          component: () => import("@/views/HomeList.vue"),
+        },
+      ],
     },
     {
       path: "/render-list",
