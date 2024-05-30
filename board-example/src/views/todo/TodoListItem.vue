@@ -8,7 +8,7 @@
 </template>
 
 <script setup>
-import {useCounterStore} from '../store/counter.js'
+import {useCounterStore} from '../../store/BoardStore.js'
 
 defineProps({todo: Object})
 const store = useCounterStore();

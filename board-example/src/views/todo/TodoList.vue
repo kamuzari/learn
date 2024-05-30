@@ -1,7 +1,7 @@
 <script setup>
 import {onMounted, ref} from 'vue';
-import {useCounterStore} from '../store/counter.js'
-import TodoListItem from "@/views/TodoListItem.vue";
+import {useCounterStore} from '../../store/BoardStore.js'
+import TodoListItem from "@/views/todo/TodoListItem.vue";
 
 // 컴포넌트 어디에서나 `store` 변수에 액세스 ✨
 const store = useCounterStore();

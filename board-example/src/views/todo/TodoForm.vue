@@ -1,13 +1,13 @@
 <script setup>
-import {ref, watch} from 'vue'
-import {useCounterStore} from '../store/counter.js'
+import { ref, watch } from 'vue'
+import { useCounterStore } from '../../store/BoardStore.js'
 
 const todoText = ref('asdas');
 const store = useCounterStore();
 
 const create = (text) => {
   store.add(text);
-  todoText.value='';
+  todoText.value = '';
 }
 
 </script>
