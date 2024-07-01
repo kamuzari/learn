@@ -1,0 +1,3 @@
+[submodule "submoduletest/submoduleTest-config"]
+	path = submoduletest/submoduleTest-config
+	url = https://github.com/whyWhale/submoduleTest-config.git
