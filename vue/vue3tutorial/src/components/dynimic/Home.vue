@@ -1,8 +1,7 @@
 <script setup>
 import {ref} from "vue";
 
-defineProps(message);
-const message =ref(message);
+const message =ref('');
 
 </script>
 

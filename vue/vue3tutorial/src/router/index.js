@@ -40,6 +40,11 @@ const router = createRouter({
       name: "dynamiccomponent",
       component: () => import("@/views/DynamicComponentView.vue"),
     },
+    {
+      path: "/dynamicProps",
+      name: "dynamicprops",
+      component: () => import("@/views/DynamicProps.vue"),
+    },
   ],
 });
 
