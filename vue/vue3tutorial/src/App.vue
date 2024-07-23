@@ -5,7 +5,7 @@ const container = ref('container')
 </script>
 
 <template>
-  <div>
+  <navigation-bar>
     <span>
       <RouterLink :to="{ name: 'home' }">홈으로 가기</RouterLink>
     </span>
@@ -18,7 +18,7 @@ const container = ref('container')
     <span>
       <RouterLink :to="{ name: 'watchers' }">watchers로 가기</RouterLink>
     </span>
-  </div>
+  </navigation-bar>
   <router-view />
 </template>
 
