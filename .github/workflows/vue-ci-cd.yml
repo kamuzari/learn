@@ -5,12 +5,12 @@ on:
     branches:
       - vue-cicd-test
     paths:
-      - './vue/sampleCICD/**'
+      - 'vue/sampleCICD/**'
   pull_request:
     branches:
       - vue-cicd-test
     paths:
-      - './vue/sampleCICD/**'
+      - 'vue/sampleCICD/**'
 
 jobs:
   build:
