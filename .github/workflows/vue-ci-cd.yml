@@ -1,0 +1,39 @@
+name: Vue3 base vite run CI-CD
+
+on:
+  push:
+    branches:
+      - vue-cicd-test
+    paths:
+      - './vue/sampleCICD/**'
+  pull_request:
+    branches:
+      - vue-cicd-test
+    paths:
+      - './vue/sampleCICD/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: 'lts/*'
+
+      - name: Install dependencies
+        run: |
+          cd vue/sampleCICD
+          npm install
+
+      - name: Run Vite build
+        run: |
+          cd vue/sampleCICD
+          npm run build
+
+      - name: Run tests
+        run: echo "not yet test..."
