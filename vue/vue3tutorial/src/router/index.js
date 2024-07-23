@@ -11,29 +11,29 @@ const router = createRouter({
         {
           path: "child",
           name: "child",
-          component: () => import("@/views/ChildView.vue"),
+          component: () => import("vue/vue3tutorial/src/views/ChildView.vue"),
         },
         {
           path: "list",
           name: "home-list",
-          component: () => import("@/views/HomeList.vue"),
+          component: () => import("vue/vue3tutorial/src/views/HomeList.vue"),
         },
       ],
     },
     {
       path: "/render-list",
       name: "render-list",
-      component: () => import("@/views/core/RenderingList.vue"),
+      component: () => import("vue/vue3tutorial/src/views/core/RenderingList.vue"),
     },
     {
       path: "/form-binding",
       name: "form-binding",
-      component: () => import("@/views/core/FormBinding.vue"),
+      component: () => import("vue/vue3tutorial/src/views/core/FormBinding.vue"),
     },
     {
       path: "/watchers",
       name: "watchers",
-      component: () => import("@/views/core/Watchers.vue"),
+      component: () => import("vue/vue3tutorial/src/views/core/Watchers.vue"),
     },
   ],
 });
