@@ -1,35 +1,12 @@
-# sampleCI
+# vite 기반 vue3 GithubActions Test [CI, CD] 
 
-This template should help get you started developing with Vue 3 in Vite.
+## 목표 
+- 
+- [ ] : vite 기반 vue3 ci
+- [ ] : docker build & hub push (tag 이용)
+- [ ] : deploy docker hub pull ${image_tag}
+- [ ] : vite 기반 vue3 cd (with docker)
 
-## Recommended IDE Setup
-
-[VSCode](https://code.visualstudio.com/) + [Volar](https://marketplace.visualstudio.com/items?itemName=Vue.volar) (and disable Vetur).
-
-## Customize configuration
-
-See [Vite Configuration Reference](https://vitejs.dev/config/).
-
-## Project Setup
-
-```sh
-npm install
-```
-
-### Compile and Hot-Reload for Development
-
-```sh
-npm run dev
-```
-
-### Compile and Minify for Production
-
-```sh
-npm run build
-```
-
-### Lint with [ESLint](https://eslint.org/)
-
-```sh
-npm run lint
-```
+**개발환경** 
+- vue3
+- vite
