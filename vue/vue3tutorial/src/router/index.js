@@ -45,6 +45,11 @@ const router = createRouter({
       name: "dynamicprops",
       component: () => import("@/views/DynamicProps.vue"),
     },
+    {
+      path: "/dynamicEmits",
+      name: "dynamicemit",
+      component: () => import("@/views/DynamicEmitView.vue"),
+    },
   ],
 });
 
