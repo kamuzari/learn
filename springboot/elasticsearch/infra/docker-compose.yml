@@ -1,0 +1,56 @@
+services:
+  mysql:
+    image: mysql:8.0
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: password
+      MYSQL_DATABASE: tutorial
+      MYSQL_USER: whywhale
+      MYSQL_PASSWORD: whywhale
+    ports:
+      - "3306:3306"
+    platform: "linux/amd64"
+    volumes:
+      - mysql-data:/var/lib/mysql
+    networks:
+      - test-network
+
+  elasticsearch:
+    platform: "linux/amd64"
+    image: elasticsearch:8.9.0
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - ES_JAVA_OPTS=-Xms512m -Xmx512m
+      - ELASTIC_PASSWORD=password
+      - xpack.security.enabled=false
+    ports:
+      - "9200:9200"
+    volumes:
+      - elastic-data:/usr/share/elasticsearch/data
+    networks:
+      - test-network
+
+  kibana:
+    platform: "linux/amd64"
+    image: kibana:8.9.0
+    container_name: kibana
+    environment:
+      ELASTICSEARCH_HOSTS: http://elasticsearch:9200
+      xpack.security.enabled: false
+    ports:
+      - "5601:5601"
+    networks:
+      - test-network
+    depends_on:
+      - elasticsearch
+
+volumes:
+  mysql-data:
+    driver: local
+  elastic-data:
+    driver: local
+
+networks:
+  test-network:
+    driver: bridge
