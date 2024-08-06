@@ -1,0 +1,17 @@
+spring:
+  application:
+    name: 'elastic tutorial'
+    main.allow-bean-definition-overriding: true
+  datasource:
+    url: jdbc:mysql://localhost:3306/tutorial
+    username: whywhale
+    password: whywhale
+    driver-class-name: com.mysql.cj.jdbc.Driver
+  jpa:
+    hibernate:
+      ddl-auto: create
+
+  elasticsearch:
+    uris: http://localhost:9200
+
+
