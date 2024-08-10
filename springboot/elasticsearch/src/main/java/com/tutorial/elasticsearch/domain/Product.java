@@ -1,7 +1,6 @@
 package com.tutorial.elasticsearch.domain;
 
 import java.time.LocalDateTime;
-import java.util.StringJoiner;
 
 import org.apache.commons.lang3.builder.ToStringSummary;
 import org.springframework.data.annotation.CreatedDate;
@@ -81,17 +80,5 @@ public class Product {
 
 	public LocalDateTime getLastModifiedDate() {
 		return lastModifiedDate;
-	}
-
-	@Override
-	public String toString() {
-		return new StringJoiner(", ", Product.class.getSimpleName() + "[", "]")
-			.add("id=" + id)
-			.add("name='" + name + "'")
-			.add("description='" + description + "'")
-			.add("price=" + price)
-			.add("createdDate=" + createdDate)
-			.add("lastModifiedDate=" + lastModifiedDate)
-			.toString();
 	}
 }

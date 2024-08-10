@@ -1,15 +1,10 @@
 package com.tutorial.kafka;
 
 import org.apache.kafka.clients.admin.NewTopic;
-import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
-import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.DependsOn;
-import org.springframework.context.event.EventListener;
 import org.springframework.kafka.config.TopicBuilder;
-import org.springframework.kafka.core.KafkaTemplate;
 
 @SpringBootApplication
 public class KafkaTutorialApplication {
@@ -19,12 +14,10 @@ public class KafkaTutorialApplication {
 	}
 
 	@Bean
-	public NewTopic topic() {
+	public NewTopic kafkaTopic() {
 		return TopicBuilder.name("topic1")
 			.partitions(1)
 			.replicas(1)
 			.build();
 	}
-
-
 }

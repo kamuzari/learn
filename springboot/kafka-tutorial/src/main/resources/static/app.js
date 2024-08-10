@@ -1,12 +1,15 @@
+let roomId;
+
 const stompClient = new StompJs.Client({
     brokerURL: 'ws://localhost:8080/gs-guide-websocket'
 });
 
 stompClient.onConnect = (frame) => {
     setConnected(true);
-    console.log('Connected: ' + frame);
-    stompClient.subscribe('/topic/greetings', (greeting) => {
-        showGreeting(JSON.parse(greeting.body).name);
+    console.trace('Connected: ' + frame);
+    stompClient.subscribe(`/topic/${roomId}`, (greeting) => {
+        let message = JSON.parse(greeting.body);
+        showGreeting(message);
     });
 };
 
@@ -24,47 +27,57 @@ function setConnected(connected) {
     $("#disconnect").prop("disabled", !connected);
     if (connected) {
         $("#conversation").show();
-    }
-    else {
+    } else {
         $("#conversation").hide();
     }
     $("#greetings").html("");
 }
 
 function connect() {
+    roomId = $("#roomId").val();
+    if (!roomId) {
+        alert("채팅 ID를 입력해주세요!");
+        return;
+    }
+
+    stompClient.connectHeaders = {
+        'roomId': roomId
+    };
     stompClient.activate();
 }
 
 function disconnect() {
+    if (roomId) {
+        stompClient.publish({
+            destination: "/app/leave",
+            headers: {
+                'roomId': roomId
+            },
+            body: JSON.stringify({'name': $("#name").val()})  // Optionally include additional data
+        });
+    }
     stompClient.deactivate();
     setConnected(false);
-    console.log("Disconnected");
+    console.trace("Disconnected");
 }
-
-function showCurrentDateTime() {
-    var currentDateTime = new Date();
-    var formattedDate = currentDateTime.toLocaleDateString();
-    var formattedTime = currentDateTime.toLocaleTimeString();
-
-    console.log("Current Date: " + formattedDate + " Current Time: " + formattedTime);
-}
-
-showCurrentDateTime();
 
 function sendName() {
     stompClient.publish({
         destination: "/app/hello",
+        headers: {
+            'roomId': roomId
+        },
         body: JSON.stringify({'name': $("#name").val()})
     });
 }
 
 function showGreeting(message) {
-    $("#greetings").append("<tr><td>" + message + "</td></tr>");
+    $("#greetings").append("<tr><td>" + message.name + "</td></tr>");
 }
 
 $(function () {
     $("form").on('submit', (e) => e.preventDefault());
-    $( "#connect" ).click(() => connect());
-    $( "#disconnect" ).click(() => disconnect());
-    $( "#send" ).click(() => sendName());
+    $("#connect").click(() => connect());
+    $("#disconnect").click(() => disconnect());
+    $("#send").click(() => sendName());
 });

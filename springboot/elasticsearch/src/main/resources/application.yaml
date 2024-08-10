@@ -10,8 +10,16 @@ spring:
   jpa:
     hibernate:
       ddl-auto: create
+    properties:
+      hibernate:
+        search:
+          backend:
+            type: elasticsearch
+            hosts: http://localhost:9200
+            index_defaults:
+              schema_management: strategy=CREATE
+
 
   elasticsearch:
     uris: http://localhost:9200
-
 
