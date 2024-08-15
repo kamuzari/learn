@@ -5,13 +5,17 @@ import org.slf4j.LoggerFactory;
 import org.springframework.kafka.core.KafkaTemplate;
 import org.springframework.messaging.handler.annotation.Header;
 import org.springframework.messaging.handler.annotation.MessageMapping;
+import org.springframework.messaging.handler.annotation.Payload;
 import org.springframework.messaging.simp.SimpMessagingTemplate;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.util.HtmlUtils;
 
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.tutorial.kafka.controller.dto.request.ChatMessage;
 import com.tutorial.kafka.domain.Message;
 import com.tutorial.kafka.service.RoomService;
+import com.tutorial.kafka.utils.JsonUtils;
 
 @RestController
 public class MessageController {
@@ -29,11 +33,11 @@ public class MessageController {
 		this.messagingTemplate = messagingTemplate;
 	}
 
-	@MessageMapping("/hello") // publish uri
+	@MessageMapping("/broadcast") // publish uri
 	public void greeting(@Header("simpSessionId") String sessionId,
 		@Header("roomId") String roomId,
 		Message message) {
-		messagingTemplate.convertAndSend("/topic/" + roomId,
+		messagingTemplate.convertAndSend("/chatter/" + roomId,
 			new Message("Hello, " + message.getName()));
 		logger.info("[chatting]    sessionId -> {}, roomId -> {}", sessionId, roomId);
 
@@ -53,6 +57,16 @@ public class MessageController {
 	@GetMapping("/send")
 	public void send() {
 		kafkaTemplate.send(FIXED_TOPIC_NAME, "send test");
+	}
+
+	@MessageMapping("/kafka-broadcast")
+	public void send(@Header("simpSessionId") String senderSessionId,
+		@Header("roomId") String roomId,
+		@Payload String content) throws JsonProcessingException {
+		logger.info("kafka-broadcast senderSessionId -> {}, roomId -> {}", senderSessionId, roomId);
+		ChatMessage message = new ChatMessage(senderSessionId, roomId, content);
+		String jsonMessage = JsonUtils.toJson(message);
+		kafkaTemplate.send(FIXED_TOPIC_NAME, jsonMessage);
 	}
 
 }

@@ -1,6 +1,7 @@
 let roomId;
-const BROKER_URL='ws://localhost:8080/persistence-connection';
+const BROKER_URL = "ws://" + window.location.hostname + ":" + window.location.port + "/persistence-connection";
 
+console.log(BROKER_URL);
 const stompClient = new StompJs.Client({
     brokerURL: BROKER_URL
 });
@@ -64,11 +65,11 @@ function disconnect() {
 
 function sendName() {
     stompClient.publish({
-        destination: "/chat/broadcast",
+        destination: "/chat/kafka-broadcast",
         headers: {
             'roomId': roomId
         },
-        body: JSON.stringify({'name': $("#name").val()})
+        body: JSON.stringify($("#input_message").val())
     });
 }
 

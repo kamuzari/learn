@@ -20,17 +20,15 @@ public class RoomService {
 
 	@Transactional
 	public void create(String sessionId, String roomId) {
-		Room save = roomRepository.save(new Room(roomId,sessionId));
+		roomRepository.save(new Room(roomId, sessionId));
 	}
 
 	@Transactional
 	public void remove(String roomId, String sessionId) {
-		Room room = roomRepository.deleteByRoomIdAndSessionId(roomId, sessionId)
-			.orElseThrow(RuntimeException::new);
+		roomRepository.deleteByRoomIdAndSessionId(roomId, sessionId);
 	}
 
 	public List<String> read(String roomId) {
-		List<String> list = roomRepository.findByRoomId(roomId).stream().map(Room::getSessionId).toList();
-		return list;
+		return roomRepository.findByRoomId(roomId).stream().map(Room::getSessionId).toList();
 	}
 }
