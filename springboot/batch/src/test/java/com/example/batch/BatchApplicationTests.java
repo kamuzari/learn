@@ -1,19 +1,14 @@
 package com.example.batch;
 
-import com.example.batch.domain.Person;
-import com.example.batch.domain.PersonRepository;
+import com.example.batch.domain.Spot;
+import com.example.batch.domain.SpotRepository;
 import org.junit.jupiter.api.Assertions;
 import org.junit.jupiter.api.Test;
-import org.springframework.batch.core.ExitStatus;
-import org.springframework.batch.core.JobExecution;
-import org.springframework.batch.core.JobParameters;
-import org.springframework.batch.core.JobParametersBuilder;
+import org.springframework.batch.core.*;
 import org.springframework.batch.test.JobLauncherTestUtils;
 import org.springframework.batch.test.context.SpringBatchTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
-import org.springframework.context.annotation.Import;
-import org.springframework.test.context.ContextConfiguration;
 
 import java.util.List;
 
@@ -25,21 +20,27 @@ class BatchApplicationTests {
     private JobLauncherTestUtils jobLauncherTestUtils;
 
     @Autowired
-    private PersonRepository personRepository;
+    private SpotRepository spotRepository;
+
+    @Autowired
+    private Job job;
 
     @Test
     public void testJob() throws Exception {
         // 배치 작업 실행
-        JobParameters jobParameters = new JobParametersBuilder()
-                .addLong("time", System.currentTimeMillis())
-                .toJobParameters();
-        JobExecution jobExecution = jobLauncherTestUtils.launchJob(jobParameters);
 
-        // 배치 작업 결과 검증
-        Assertions.assertEquals(ExitStatus.COMPLETED, jobExecution.getExitStatus());
+        for (int pageNo = 1; pageNo <= 20; pageNo++) {  // 페이지 수만큼 반복
+            JobParameters jobParameters = new JobParametersBuilder()
+                    .addLong("time", System.currentTimeMillis())
+                    .addLong("pageNo", (long) pageNo)
+                    .toJobParameters();
 
-        // 데이터베이스 검증
-        List<Person> people = personRepository.findAll();
-        Assertions.assertFalse(people.isEmpty());
+            JobExecution run = jobLauncherTestUtils.getJobLauncher().run(job, jobParameters);// Job 실행
+            Long jobId = run.getJobId();
+        }
+
+        List<Spot> spots = spotRepository.findAll();
+        Assertions.assertFalse(spots.isEmpty());
+        org.assertj.core.api.Assertions.assertThat(spots.size()).isEqualTo(4000);
     }
 }

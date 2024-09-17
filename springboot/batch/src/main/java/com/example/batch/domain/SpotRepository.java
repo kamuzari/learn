@@ -2,5 +2,5 @@ package com.example.batch.domain;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 
-public interface PersonRepository extends JpaRepository<Person, Long> {
+public interface SpotRepository extends JpaRepository<Spot, Long> {
 }
