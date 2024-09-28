@@ -27,7 +27,6 @@ class BatchApplicationTests {
 
     @Test
     public void testJob() throws Exception {
-        // 배치 작업 실행
 
         for (int pageNo = 1; pageNo <= 20; pageNo++) {  // 페이지 수만큼 반복
             JobParameters jobParameters = new JobParametersBuilder()
@@ -36,7 +35,7 @@ class BatchApplicationTests {
                     .toJobParameters();
 
             JobExecution run = jobLauncherTestUtils.getJobLauncher().run(job, jobParameters);// Job 실행
-            Long jobId = run.getJobId();
+
         }
 
         List<Spot> spots = spotRepository.findAll();

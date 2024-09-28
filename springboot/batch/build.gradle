@@ -29,10 +29,13 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-batch'
 
 	implementation 'com.fasterxml.jackson.dataformat:jackson-dataformat-xml'
-	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
 
 	runtimeOnly 'com.h2database:h2'
 
+	implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
+	implementation "io.github.openfeign:feign-okhttp"
+	implementation 'org.springframework.cloud:spring-cloud-starter-circuitbreaker-resilience4j'
+	testImplementation 'com.maciejwalkowiak.spring:wiremock-spring-boot:2.1.2'
 
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	testImplementation 'org.springframework.batch:spring-batch-test'

@@ -22,23 +22,39 @@ spring:
       enabled: true
       path: /h2-console
 
-feign:
+  cloud:
+    openfeign:
+      circuitbreaker:
+        enabled: true
+        alphanumeric-ids:
+          enabled: true
   client:
     config:
       default:
-        decoder:
-          xml:
-            enabled: true
+        retryer:
+          period: 2000
+          maxPeriod: 5000
+          maxAttempts: 3
+        connectTimeout: 2000
+        readTimeout: 5000
+
+
 public-data:
   api:
     serviceKey: ${SERVICE_KEY}
 
+test:
+  url: https://jsonplaceholder.typicode.com
+
 logging:
   level:
     root: INFO
-    org.hibernate.SQL: DEBUG
-    org.hibernate.type.descriptor.sql.BasicBinder: DEBUG
-    org.springframework.batch: DEBUG
-    org.springframework.jdbc.core: DEBUG
-    org.springframework.jdbc.core.JdbcTemplate: DEBUG
-    org.springframework.jdbc.support: DEBUG
+    org.springframework.cloud.openfeign: DEBUG
+    feign: DEBUG
+    feign.Logger: DEBUG
+#    org.hibernate.SQL: DEBUG
+#    org.hibernate.type.descriptor.sql.BasicBinder: DEBUG
+#    org.springframework.batch: DEBUG
+#    org.springframework.jdbc.core: DEBUG
+#    org.springframework.jdbc.core.JdbcTemplate: DEBUG
+#    org.springframework.jdbc.support: DEBUG

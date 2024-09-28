@@ -19,9 +19,7 @@ public interface PublicDataClient {
             @RequestParam("MobileOS") String mobileOS,
             @RequestParam("MobileApp") String mobileApp,
             @RequestParam("_type") String type,
-            @RequestParam("serviceKey")
-            String serviceKey,
-            @RequestParam("arrange")
-            String order
+            @RequestParam("serviceKey") String serviceKey,
+            @RequestParam("arrange") String order
             );
 }
