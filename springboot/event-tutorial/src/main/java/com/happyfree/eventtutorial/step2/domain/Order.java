@@ -1,9 +1,13 @@
 package com.happyfree.eventtutorial.step2.domain;
 
-import com.happyfree.eventtutorial.step2.event.producer.EventsProducer;
+import java.util.StringJoiner;
+
 import com.happyfree.eventtutorial.step2.event.model.OrderCanceledEvent;
+import com.happyfree.eventtutorial.step2.event.producer.EventsProducer;
 
 import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
 import jakarta.persistence.Id;
 import jakarta.persistence.Table;
 
@@ -13,6 +17,7 @@ public class Order {
 	@Id
 	private String id;
 
+	@Enumerated(EnumType.STRING)
 	private ShipStatus shipStatus;
 
 	protected Order() {
@@ -43,4 +48,11 @@ public class Order {
 		EventsProducer.raise(new OrderCanceledEvent(this.id));
 	}
 
+	@Override
+	public String toString() {
+		return new StringJoiner(", ", Order.class.getSimpleName() + "[", "]")
+			.add("id='" + id + "'")
+			.add("shipStatus=" + shipStatus)
+			.toString();
+	}
 }
