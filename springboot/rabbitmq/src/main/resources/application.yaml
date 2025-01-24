@@ -1,0 +1,18 @@
+spring:
+  application:
+    name: rabbitmq-test
+  rabbitmq:
+    host: localhost
+    port: 5672
+    username: admin
+    password: admin
+    # Listener(Consumer) 관련 설정
+    listener:
+      simple:
+        # prefetch 설정
+        prefetch: 3
+        # 동시 소비자 스레드 개수(예: 1로 하면 단일 스레드)
+        concurrency: 1
+        # 메시지 수동 ACK 테스트 시
+#        acknowledge-mode: manual
+        acknowledge-mode: auto
