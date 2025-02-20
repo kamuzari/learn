@@ -1,0 +1,11 @@
+spring:
+  application:name: grpc-client
+
+server:
+  port: ${PORT_NUMBER:8080}
+
+grpc:
+  client:
+    calculatorService:
+      address: static://localhost:${GRPC_SERVER_PORT:9090}
+      negotiationType: plaintext

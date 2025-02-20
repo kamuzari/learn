@@ -1,6 +1,6 @@
 #!/bin/bash
 
-JAR_PATH=./build/libs/grpc-0.0.1-SNAPSHOT.jar
+SERVER_JAR_PATH=./grpc-server/build/libs/grpc-server-1.0-SNAPSHOT.jar
 
 echo "build 슝슝슝슝슝슝 \n"
 ./gradlew clean build
@@ -12,12 +12,14 @@ fi
 echo "🌸 빌드 끗 .!\n\n\n"
 
 echo "🚀 gRPC 서버를 시작 \n"
-java -jar $JAR_PATH --spring.profiles.active=grpc-server&SERVER_PID=$!
+java -jar $SERVER_JAR_PATH --spring.profiles.active=grpc-server&SERVER_PID=$!
 
 sleep 3
 
+CLIENT_JAR_PATH=./grpc-client/build/libs/grpc-client-1.0-SNAPSHOT.jar
+
 echo "🚀 gRPC 클라이언트를 시작 \n"
-java -jar $JAR_PATH --spring.profiles.active=grpc-client&CLIENT_PID=$!
+java -jar $CLIENT_JAR_PATH --spring.profiles.active=grpc-client&CLIENT_PID=$!
 
 echo "✅ gRPC 서버 PID: $SERVER_PID"
 echo "✅ gRPC 클라이언트 PID: $CLIENT_PID"

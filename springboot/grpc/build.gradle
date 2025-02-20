@@ -1,81 +1,29 @@
 plugins {
     id 'java'
-    id 'org.springframework.boot' version '3.4.2'
     id 'io.spring.dependency-management' version '1.1.7'
-    id 'com.google.protobuf' version '0.9.4'
 }
 
-group = 'com.example'
-version = '0.0.1-SNAPSHOT'
+allprojects {
+    group = 'com.example'
+    version = '1.0-SNAPSHOT'
 
-java {
-    toolchain {
-        languageVersion = JavaLanguageVersion.of(17)
+    repositories {
+        mavenCentral()
     }
 }
 
-repositories {
-    mavenCentral()
-}
+subprojects {
+    apply plugin: 'java'
 
-ext {
-    set('springGrpcVersion', "0.3.0")
-}
-
-sourceSets {
-    main {
-        java {
-            srcDirs 'src/main/java',
-                    'build/generated/source/proto/main/java',
-                    'build/generated/source/proto/main/grpc'
+    java {
+        toolchain {
+            languageVersion = JavaLanguageVersion.of(17)
         }
     }
-}
 
-dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-web'
+    dependencies {
+        testImplementation 'org.springframework.boot:spring-boot-starter-test:3.1.2'
 
-
-    runtimeOnly 'com.h2database:h2'
-
-    // rpc-client 환경 사용시 주석처리
-    implementation 'net.devh:grpc-server-spring-boot-starter:3.1.0.RELEASE'
-    implementation 'net.devh:grpc-client-spring-boot-starter:3.1.0.RELEASE'
-
-    implementation 'io.grpc:grpc-protobuf:1.51.0'
-    implementation 'io.grpc:grpc-stub:1.51.0'
-
-    testImplementation 'org.springframework.boot:spring-boot-starter-test'
-
-    testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
-}
-
-dependencyManagement {
-    imports {
-        mavenBom "org.springframework.grpc:spring-grpc-dependencies:${springGrpcVersion}"
+        testRuntimeOnly 'org.junit.platform:junit-platform-launcher'
     }
-}
-
-protobuf {
-    protoc {
-        artifact = 'com.google.protobuf:protoc'
-    }
-    plugins {
-        grpc {
-            artifact = 'io.grpc:protoc-gen-grpc-java'
-        }
-    }
-    generateProtoTasks {
-        all()*.plugins {
-            grpc {
-                option 'jakarta_omit'
-                option '@generated=omit'
-            }
-        }
-    }
-}
-
-tasks.named('test') {
-    useJUnitPlatform()
 }

@@ -1,4 +1,0 @@
-spring:
-  application.name: grpc
-  profiles:
-    active: ${ROLE:grpc-client}
